@@ -2,6 +2,7 @@
 
 namespace App\Validator\Constraints;
 
+use App\Repository\BlacklistedPasswordRepository;
 use http\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -11,13 +12,12 @@ use Symfony\Component\Validator\ConstraintValidator;
  */
 class PasswordBlackListValidator extends ConstraintValidator
 {
-    const BLACKLISTED = [
-        "admin",
-        "user",
-        "trump",
-        "password",
-        "pass"
-    ];
+    private mixed $blackListed;
+
+    public function __construct(BlacklistedPasswordRepository $blackListed)
+    {
+        $this->blackListed = $blackListed;
+    }
 
     /**
      * @param mixed $value
@@ -34,12 +34,13 @@ class PasswordBlackListValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, code: 'string');
         }
 
-        if (in_array($value, self::BLACKLISTED)) {
-            dd("cette valeur a été blacklistée");
-            exit;
-            /*$this->context->buildViolation($constraint->message)
-                ->setParameter("{{ string }}", $value)
-                ->addViolation();*/
+        foreach ($this->blackListed->findAll() as $element) {
+            if ($element->getPassword() === $value) {
+                $this->context->buildViolation($constraint->message)
+                    ->setParameter("{{ string }}", $value)
+                    ->addViolation();
+                break;
+            }
         }
     }
 }

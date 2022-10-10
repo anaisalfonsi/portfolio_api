@@ -9,10 +9,13 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\UserRepository;
+use App\State\UserProcessor;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Validator\Constraints as CustomConstraints;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
@@ -25,6 +28,7 @@ use App\Validator\Constraints as CustomConstraints;
     ],
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
+    processor: UserProcessor::class
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -55,8 +59,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         maxMessage: 'Your password cannot be longer than {{ limit }} characters',
     )]
     #[CustomConstraints\PasswordBlackList]
-    #[Groups('write')]
     private ?string $password = null;
+
+    #[SerializedName("password")]
+    #[Groups('write')]
+    private ?string $plainPassword = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
@@ -135,13 +142,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
     /**
      * @see UserInterface
      */
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
     }
 
     public function getPseudo(): ?string

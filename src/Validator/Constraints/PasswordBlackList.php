@@ -7,9 +7,9 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class PasswordBlackList extends Constraint
+#[\Attribute] class PasswordBlackList extends Constraint
 {
-    public string $message = "This password => {{ string }} is not allowed to be used";
+    public string $message = "This password => *{{ string }}* is not allowed to be used";
 
     /**
      * @return string
