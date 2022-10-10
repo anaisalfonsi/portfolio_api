@@ -10,7 +10,7 @@
 ###< symfony/framework-bundle ###
 
 ###> doctrine migrations ###
-/migrations
+/migrations/
 ###< doctrine migrations ###
 
 ###< unrelated mac files ###
