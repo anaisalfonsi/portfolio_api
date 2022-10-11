@@ -61,6 +61,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[CustomConstraints\PasswordBlackList]
     private ?string $password = null;
 
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 6,
+        max: 30,
+        minMessage: 'Your password must be at least {{ limit }} characters long',
+        maxMessage: 'Your password cannot be longer than {{ limit }} characters',
+    )]
+    #[CustomConstraints\PasswordBlackList]
     #[SerializedName("password")]
     #[Groups('write')]
     private ?string $plainPassword = null;

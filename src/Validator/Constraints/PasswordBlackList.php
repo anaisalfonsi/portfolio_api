@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraint;
     /**
      * @return string
      */
-    public function validatedBy() : string
+    public function validatedBy(): string
     {
         return get_class($this).'Validator';
     }

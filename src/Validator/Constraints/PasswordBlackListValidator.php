@@ -24,7 +24,7 @@ class PasswordBlackListValidator extends ConstraintValidator
      * @param Constraint $constraint
      * @return void
      */
-    public function validate(mixed $value, Constraint $constraint) : void
+    public function validate(mixed $value, Constraint $constraint): void
     {
         if (null === $value || '' === $value) {
             return;
