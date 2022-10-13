@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[AsController]
 class ApiLoginController extends AbstractController
 {
-    #[Route('/api/login', name: 'api_login')]
+    #[Route('/api/login', name: 'api_login',  methods: ['POST'])]
     public function index(IriConverterInterface $iriConverter): Response
     {
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -20,7 +20,10 @@ class ApiLoginController extends AbstractController
             ], 400);
         }
         return new Response(null, 204, [
-            'location' => $iriConverter->getIriFromResource($this->getUser())
+            'location' => $iriConverter->getIriFromResource($this->getUser()),
+            'Access-Control-Allow-Origin' => $this->getParameter('front_domain_name'),
+            'Access-Control-Allow-Methods' => 'POST',
+            'Access-Control-Allow-Credentials' => 'true'
         ]);
     }
 
@@ -29,4 +32,5 @@ class ApiLoginController extends AbstractController
     {
         throw new \Exception('Should not be reached');
     }
+
 }
