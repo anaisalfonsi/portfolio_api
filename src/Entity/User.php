@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -10,7 +11,10 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\UserRepository;
 use App\State\UserProcessor;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Validator\Constraints as CustomConstraints;
@@ -77,8 +81,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\Regex(
         pattern: '/[a-z0-9]+/i',
-        match: true,
         message: 'Your pseudo must only contain letters and numbers',
+        match: true,
     )]
     #[Assert\Length(
         min: 4,
@@ -88,6 +92,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     #[Groups(['read', 'write'])]
     private ?string $pseudo = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Image::class, orphanRemoval: true)]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Assert\Count(
+        min: 1,
+        max: 20,
+        minMessage: 'You must add at least one image',
+        maxMessage: 'You cannot add more than {{ limit }} images',
+    )]
+    #[Groups('read')]
+    private Collection $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -179,6 +199,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getUser() === $this) {
+                $image->setUser(null);
+            }
+        }
 
         return $this;
     }
