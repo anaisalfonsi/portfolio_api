@@ -23,25 +23,11 @@ final class ApiCreateUserImagesAction extends AbstractController
         if (!$uploadedFiles) {
             throw new BadRequestHttpException('"file" is required');
         }
-        dd($request);
-        // $user = $this->getUser();
 
         $user = $request->attributes->get('data');
 
         if (!($user instanceof User)) {
             throw new \RuntimeException('User object is expected.');
-        }
-
-        if ($user->getPassword()) {
-            $user->setPassword($user->getPassword());
-        } else if (!$user->getPassword() && $user->getPlainPassword()) {
-            $user->setPassword(
-                $passwordHasher->hashPassword(
-                    $user,
-                    $user->getPlainPassword()
-                )
-            );
-            $user->eraseCredentials();
         }
 
         foreach ($uploadedFiles as $uploadedFile) {

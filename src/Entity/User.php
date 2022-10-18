@@ -36,13 +36,11 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
         new Post(
             uriTemplate: '/users/{id}/images',
             inputFormats: ['multipart' => ['multipart/form-data']],
-            controller: ApiCreateUserImagesAction::class,
-            name: 'images',processor: UserProcessor::class
+            controller: ApiCreateUserImagesAction::class
         ),
     ],
     normalizationContext: ['groups' => ['read']],
-    denormalizationContext: ['groups' => ['write']],
-    processor: UserProcessor::class
+    denormalizationContext: ['groups' => ['write']]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -65,7 +63,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank]
     #[Assert\Length(
         min: 6,
         max: 200,
@@ -109,7 +106,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         max: 20,
         maxMessage: 'You cannot add more than {{ limit }} images',
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups('read')]
     private Collection $images;
 
     public function __construct()
@@ -166,7 +163,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }

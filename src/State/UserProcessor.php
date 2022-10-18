@@ -22,7 +22,6 @@ final class UserProcessor implements ProcessorInterface
 
     private function preparePassword(mixed $data): void
     {
-        dd("dans le processor");
         if ($data->getPlainPassword()) {
             $data->setPassword(
                 $this->passwordHasher->hashPassword(

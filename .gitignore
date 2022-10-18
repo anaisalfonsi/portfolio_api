@@ -20,6 +20,10 @@
 /.DS_Store
 ###< unrelated mac files ###
 
+### uploads ###
+/public/uploads/
+### uploads ###
+
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml
