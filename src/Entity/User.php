@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\ApiCreateUserImagesAction;
 use App\Repository\UserRepository;
 use App\State\UserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -25,10 +25,20 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 #[ApiResource(
     operations: [
         new Get(),
+        new Post(
+            uriTemplate: '/users',
+            name: 'user',
+            processor: UserProcessor::class
+        ),
         new Put(),
         new Delete(),
         new GetCollection(),
-        new Post(),
+        new Post(
+            uriTemplate: '/users/{id}/images',
+            inputFormats: ['multipart' => ['multipart/form-data']],
+            controller: ApiCreateUserImagesAction::class,
+            name: 'images',processor: UserProcessor::class
+        ),
     ],
     normalizationContext: ['groups' => ['read']],
     denormalizationContext: ['groups' => ['write']],
@@ -58,14 +68,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     #[Assert\Length(
         min: 6,
-        max: 30,
+        max: 200,
         minMessage: 'Your password must be at least {{ limit }} characters long',
         maxMessage: 'Your password cannot be longer than {{ limit }} characters',
     )]
     #[CustomConstraints\PasswordBlackList]
     private ?string $password = null;
 
-    #[Assert\NotBlank]
+
     #[Assert\Length(
         min: 6,
         max: 30,
@@ -93,15 +103,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['read', 'write'])]
     private ?string $pseudo = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Image::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Image::class, cascade: ['persist'], orphanRemoval: true)]
     #[ORM\JoinColumn(nullable: true)]
     #[Assert\Count(
-        min: 1,
         max: 20,
-        minMessage: 'You must add at least one image',
         maxMessage: 'You cannot add more than {{ limit }} images',
     )]
-    #[Groups('read')]
+    #[Groups(['read', 'write'])]
     private Collection $images;
 
     public function __construct()
@@ -231,5 +239,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+
+    public function __serialize(): array
+    {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->id = $data['id'];
+        $this->email = $data['email'];
     }
 }

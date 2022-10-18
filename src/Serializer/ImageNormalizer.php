@@ -14,7 +14,6 @@ final class ImageNormalizer implements NormalizerAwareInterface
 
     public function __construct(private StorageInterface $storage)
     {
-        dd("dans le normalizer construct");
     }
 
     public function normalize($object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
