@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use App\Controller\ApiCreateTarotImagesController;
 use App\Repository\TarotCardRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,7 +26,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
         new GetCollection(),
         new Patch(),
         new Delete(),
-        new Post(inputFormats: ['multipart' => ['multipart/form-data']])
+        new Post(
+            inputFormats: ['multipart' => ['multipart/form-data']],
+            controller: ApiCreateTarotImagesController::class
+        )
     ],
     normalizationContext: ['groups' => ['tarot:read']],
     denormalizationContext: ['groups' => ['tarot:write']]
@@ -35,7 +39,7 @@ class TarotCard
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['tarot:read'])]
+    #[Groups('tarot:read')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -51,17 +55,19 @@ class TarotCard
     private ?string $description = null;
 
     #[ApiProperty(types: ['http://localhost:8000/contentUrl'])]
-    #[Groups(['tarot:read'])]
+    #[Groups('tarot:read')]
     public ?string $contentUrl = null;
 
-    /**
-     * @Vich\UploadableField(mapping="image", fileNameProperty="filePath")
-     */
-    #[Groups(['tarot:write'])]
+    #[Vich\UploadableField(mapping: "tarot_image", fileNameProperty: "filePath")]
+    #[Groups('tarot:write')]
     public ?File $file = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups('tarot:read')]
     public ?string $filePath = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $updated_at = null;
 
     public function getId(): ?int
     {
@@ -100,6 +106,18 @@ class TarotCard
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

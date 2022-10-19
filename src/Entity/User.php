@@ -8,7 +8,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use App\Controller\ApiCreateUserImagesAction;
+use App\Controller\ApiCreateUserImagesController;
 use App\Repository\UserRepository;
 use App\State\UserProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -30,13 +30,12 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
             name: 'user',
             processor: UserProcessor::class
         ),
-        new Put(),
         new Delete(),
         new GetCollection(),
         new Post(
             uriTemplate: '/users/{id}/images',
             inputFormats: ['multipart' => ['multipart/form-data']],
-            controller: ApiCreateUserImagesAction::class
+            controller: ApiCreateUserImagesController::class
         ),
     ],
     normalizationContext: ['groups' => ['read']],
@@ -52,6 +51,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank]
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
     #[Groups(['read', 'write'])]
     private ?string $email = null;
 
@@ -78,6 +80,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         max: 30,
         minMessage: 'Your password must be at least {{ limit }} characters long',
         maxMessage: 'Your password cannot be longer than {{ limit }} characters',
+    )]
+    #[Assert\Regex(
+        pattern: '/[a-z0-9]+/i',
+        message: 'Your password must only contain letters and numbers',
+        match: true,
     )]
     #[CustomConstraints\PasswordBlackList]
     #[SerializedName("password")]

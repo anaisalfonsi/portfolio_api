@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsController]
-final class ApiCreateUserImagesAction extends AbstractController
+final class ApiCreateUserImagesController extends AbstractController
 {
     public function __invoke(Request $request, UserPasswordHasherInterface $passwordHasher) : User
     {
