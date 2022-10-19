@@ -116,9 +116,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups('read')]
     private Collection $images;
 
+    #[ORM\ManyToMany(targetEntity: Language::class, inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Groups(['read', 'write'])]
+    private Collection $languages;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->languages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,5 +264,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->id = $data['id'];
         $this->email = $data['email'];
+    }
+
+    /**
+     * @return Collection<int, Language>
+     */
+    public function getLanguages(): Collection
+    {
+        return $this->languages;
+    }
+
+    public function addLanguage(Language $language): self
+    {
+        if (!$this->languages->contains($language)) {
+            $this->languages->add($language);
+        }
+
+        return $this;
+    }
+
+    public function removeLanguage(Language $language): self
+    {
+        $this->languages->removeElement($language);
+
+        return $this;
     }
 }
