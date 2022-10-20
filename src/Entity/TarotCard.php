@@ -59,7 +59,7 @@ class TarotCard
     public ?string $contentUrl = null;
 
     #[Vich\UploadableField(mapping: "tarot_image", fileNameProperty: "filePath")]
-    #[Groups('tarot:write')]
+    #[Groups(['tarot:read', 'tarot:write'])]
     public ?File $file = null;
 
     #[ORM\Column(nullable: true)]
