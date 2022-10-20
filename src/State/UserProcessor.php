@@ -29,7 +29,6 @@ final class UserProcessor implements ProcessorInterface
                     $data->getPlainPassword()
                 )
             );
-
             $data->eraseCredentials();
         }
     }
