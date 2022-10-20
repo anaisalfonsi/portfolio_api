@@ -73,7 +73,7 @@ class AppFixtures extends Fixture
         // Multiple Users
         for($i = 0 ; $i < 10; $i++) {
             $user = new User();
-            $user->setPseudo(str_replace(' ', '', $faker->name()));
+            $user->setPseudo($faker->numerify($faker->firstName().'##'));
             $user->setEmail($faker->email());
             $user->setPassword($this->passwordHasher->hashPassword($user, 'password55'));
             $user->addLanguage($this->getReference('language_' . $faker->numberBetween(0, 8)));
@@ -82,7 +82,7 @@ class AppFixtures extends Fixture
             //$this->addReference('author_' . $i, $user);
         }
 
-        // 5 Tarot Cards
+        // 5 Tarot Cards (for more cards, see scroll down)
         /*$i = 0;
         foreach (self::TAROT_CARDS as $cardName => $data) {
             $tarotCard = new TarotCard();
@@ -91,6 +91,15 @@ class AppFixtures extends Fixture
             $tarotCard->setDescription($data['description']);
             $manager->persist($tarotCard);
             $i++;
+        }*/
+
+        // 20 TAROT CARDS (non-sense data)
+        /*for($i = 0 ; $i < 20; $i++) {
+            $tarotCard = new TarotCard();
+            $tarotCard->setName($faker->name());
+            $tarotCard->setNumber($faker->numberBetween(0,22));
+            $tarotCard->setDescription($faker->sentence());
+            $manager->persist($tarotCard);
         }*/
 
         $manager->flush();
