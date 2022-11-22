@@ -15,11 +15,14 @@ The front end part is developed with Gatsby (React), currently deployed on Netli
 #### - API Platform 3.0
 
 
-### NOTE CORRECTEURS
-Ce projet étant mon portfolio, je continuerai à développer pendant la période d'évaluation mais sur d'autres branches que main.
+### NOTE RECRUTEURS
+Ce projet est en restructuration, je change le mode d'authentification. Il est possible que certaines fonctionnalités concernant l'utilisateur (comme le téléchargement de multiples images associées à un utilisateur) ne fonctionnent plus. Vous pouvez malgré tout tester les fonctionnalités avant cette restructuration, en clonant ces branches :
 
-### FRONT END PART LINK
-https://github.com/anaisalfonsi/my-portfolio
+##### Back
+https://github.com/anaisalfonsi/portfolio_api/tree/beforeRefactoAuth
+
+##### Front
+https://github.com/anaisalfonsi/my-portfolio/tree/beforeRefactoRedux
 
 
 ### HOW TO INSTALL IT
