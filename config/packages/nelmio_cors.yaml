@@ -9,14 +9,14 @@ nelmio_cors:
     paths:
         '^/api':
             allow_origin: [ '^http://localhost:(([0-9]+/)|([0-9]+))' ]
-            allow_headers: [ 'X-Custom-Auth', 'Content-type' ]
-            allow_methods: [ 'POST', 'PUT', 'GET', 'DELETE' ]
+            allow_headers: [ 'X-Custom-Auth', 'Content-type', 'Authorization' ]
+            allow_methods: [ 'POST', 'PUT', 'GET', 'DELETE', 'OPTIONS' ]
             allow_credentials: true
             max_age: 3600
         '^/':
             origin_regex: true
             allow_origin: [ '^http://localhost:(([0-9]+/)|([0-9]+))' ]
-            allow_headers: [ 'X-Custom-Auth' ]
-            allow_methods: [ 'POST', 'PUT', 'GET', 'DELETE' ]
+            allow_headers: [ 'X-Custom-Auth', 'Authorization' ]
+            allow_methods: [ 'POST', 'PUT', 'GET', 'DELETE', 'OPTIONS' ]
             max_age: 3600
             hosts: [ '^api\.' ]
