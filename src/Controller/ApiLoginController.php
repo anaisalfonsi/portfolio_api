@@ -13,8 +13,8 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[AsController]
 class ApiLoginController extends AbstractController
 {
-    #[Route('/api/login', name: 'api_login',  methods: ['POST'])]
-    public function index(IriConverterInterface $iriConverter, SerializerInterface $serializer): Response
+    // #[Route('/api/login', name: 'api_login',  methods: ['POST'])]
+    /*public function index(IriConverterInterface $iriConverter, SerializerInterface $serializer): Response
     {
         if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
             return $this->json([
@@ -34,7 +34,7 @@ class ApiLoginController extends AbstractController
             'Access-Control-Allow-Methods' => 'POST',
             'Access-Control-Allow-Credentials' => 'true'
         ]);
-    }
+    }*/
 
     #[Route('/api/logout', name: 'api_logout', methods: ['GET'])]
     public function logout()
