@@ -1,7 +1,7 @@
 # API PORTFOLIO
 ## Welcome :) :) :)
 
-### The general idea of this project is to build a Developer Portfolio where you can find a test API section to test an API that I have built, thereby showcase my back end skills. In this section, you will be able to test multiple functionalities like: authentification, multiple images upload, search catalog, user profile, etc...
+The general idea of this project is to build a Developer Portfolio where you can find a test API section to test an API that I have built, thereby showcase my back end skills. In this section, you will be able to test multiple functionalities like: authentification, multiple images upload, search catalog, user profile, etc...
 
 This is the API part. The front end part is developed with Gatsby (React), currently deployed on Netlify.
 
