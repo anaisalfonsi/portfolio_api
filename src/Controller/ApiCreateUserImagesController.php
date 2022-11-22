@@ -16,7 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 #[AsController]
 final class ApiCreateUserImagesController extends AbstractController
 {
-    public function __invoke(Request $request, UserPasswordHasherInterface $passwordHasher) : User
+    public function __invoke(Request $request) : User
     {
         $uploadedFiles = $request->files->get('file');
 
