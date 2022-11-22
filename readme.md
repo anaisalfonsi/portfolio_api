@@ -3,7 +3,9 @@
 
 The general idea of this project is to build a Developer Portfolio where you can find a test API section to test an API that I have built, thereby showcase my back end skills. In this section, you will be able to test multiple functionalities like: authentification, multiple images upload, search catalog, user profile, etc...
 
-This is the API part. The front end part is developed with Gatsby (React), currently deployed on Netlify.
+This is the API part. 
+
+The front end part is developed with Gatsby (React), currently deployed on Netlify. Front end part project's link : https://github.com/anaisalfonsi/my-portfolio
 
 ### MAIN TECHNOLOGIES
 #### - MySQL 5.7
@@ -21,11 +23,6 @@ https://github.com/anaisalfonsi/portfolio_api/tree/beforeRefactoAuth
 ##### Front
 https://github.com/anaisalfonsi/my-portfolio/tree/beforeRefactoRedux
 
-
-
-
-### FRONT END PART LINK
-https://github.com/anaisalfonsi/my-portfolio
 
 
 ### HOW TO INSTALL IT
