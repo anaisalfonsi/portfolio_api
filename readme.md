@@ -13,13 +13,15 @@ This is the API part. The front end part is developed with Gatsby (React), curre
 
 
 ### NOTE RECRUTEURS
-Ce projet est en restructuration, je change le mode d'authentification. Ilest possible que certaines fonctionnalités concernant l'utilisateur (comme le téléchargement de multiples images associées à un utilisateur) ne fonctionnent plus. Vous pouvez malgré tout tester les fonctionnalités avant cette restructuration, en clonant ces branches :
+Ce projet est en restructuration, je change le mode d'authentification. Il est possible que certaines fonctionnalités concernant l'utilisateur (comme le téléchargement de multiples images associées à un utilisateur) ne fonctionnent plus. Vous pouvez malgré tout tester les fonctionnalités avant cette restructuration, en clonant ces branches :
 
-#### Back
+##### Back
 https://github.com/anaisalfonsi/portfolio_api/tree/beforeRefactoAuth
 
-#### Front
+##### Front
 https://github.com/anaisalfonsi/my-portfolio/tree/beforeRefactoRedux
+
+
 
 
 ### FRONT END PART LINK
