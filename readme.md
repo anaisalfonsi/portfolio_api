@@ -46,7 +46,7 @@ https://github.com/anaisalfonsi/my-portfolio/tree/beforeRefactoRedux
 
 - symfony server:start -d (so your server is running in the background, and you don't have to use an additional terminal)
 
-=> Go to http://localhost:8000/api/docs in your browser.
+=> Go to http://localhost:8000/api in your browser.
 
 ### IMPORTANT NOTES
 !!! You have to run your API server on http://localhost:8000 and the front-end server on http://localhost:8001
