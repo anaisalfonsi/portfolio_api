@@ -38,7 +38,7 @@ https://github.com/anaisalfonsi/my-portfolio/tree/beforeRefactoRedux
 
 - php bin/console doctrine:database:create
 
-- php bin/console make:migration (!!! Before making a new migration, make sure the migrations file is empty. Otherwise, delete all the migrations inside the folder.)
+- php bin/console make:migration (!!! Before making a new migration, make sure the migrations folder is empty (if exists). Otherwise, delete all the migrations inside the folder.)
 
 - php bin/console doctrine:migrations:migrate
 
