@@ -51,7 +51,7 @@ https://github.com/anaisalfonsi/my-portfolio/tree/beforeRefactoRedux
 ### IMPORTANT NOTES
 !!! You have to run your API server on http://localhost:8000 and the front-end server on http://localhost:8001
 
-!!! Create folders "images" and "tarot_images" inside public/uploads for image uploads
+!!! Create folders "images" and "tarot_images" inside public/uploads/ for image uploads
 
 !!! You will need to uncomment some code in datafixtures if you want all the data
 
