@@ -39,8 +39,8 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
             controller: ApiCreateUserImagesController::class
         ),
     ],
-    normalizationContext: ['groups' => ['read']],
-    denormalizationContext: ['groups' => ['write']]
+    normalizationContext: ['groups' => ['read:user']],
+    denormalizationContext: ['groups' => ['write:user']]
 )]
 #[ApiFilter(SearchFilter::class, properties: ['languages' => 'end'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -48,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('read')]
+    #[Groups(['read:user'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
@@ -56,11 +56,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Email(
         message: 'The email {{ value }} is not a valid email.',
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read:user', 'write:user'])]
     private ?string $email = null;
 
     #[ORM\Column]
-    #[Groups('read')]
+    #[Groups(['read:user'])]
     private array $roles = [];
 
     /**
@@ -90,7 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     #[CustomConstraints\PasswordBlackList]
     #[SerializedName("password")]
-    #[Groups('write')]
+    #[Groups(['write:user'])]
     private ?string $plainPassword = null;
 
     #[ORM\Column(length: 255)]
@@ -106,7 +106,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         minMessage: 'Your pseudo must be at least {{ limit }} characters long',
         maxMessage: 'Your pseudo cannot be longer than {{ limit }} characters',
     )]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read:user', 'write:user'])]
     private ?string $pseudo = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Image::class, cascade: ['persist'], orphanRemoval: true)]
@@ -115,12 +115,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         max: 20,
         maxMessage: 'You cannot add more than {{ limit }} images',
     )]
-    #[Groups('read')]
+    #[Groups(['read:user'])]
     private Collection $images;
 
     #[ORM\ManyToMany(targetEntity: Language::class, inversedBy: 'users')]
     #[ORM\JoinColumn(nullable: true)]
-    #[Groups(['read', 'write'])]
+    #[Groups(['read:user', 'write:user'])]
     private Collection $languages;
 
     public function __construct()
