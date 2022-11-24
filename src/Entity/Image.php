@@ -49,7 +49,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             deserialize: false,
         ),
     ],
-    normalizationContext: ['groups' => ['image:read']],
+    normalizationContext: ['groups' => ['read:image']],
     paginationItemsPerPage: 5
 )]
 class Image
@@ -60,7 +60,7 @@ class Image
     private ?int $id = null;
 
     #[ApiProperty(types: ['http://localhost:8000/contentUrl'])]
-    #[Groups(['image:read'])]
+    #[Groups(['read:image'])]
     public ?string $contentUrl = null;
 
     #[Vich\UploadableField(mapping: "image", fileNameProperty: "filePath")]

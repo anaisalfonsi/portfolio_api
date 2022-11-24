@@ -31,39 +31,39 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             controller: ApiCreateTarotImagesController::class
         )
     ],
-    normalizationContext: ['groups' => ['tarot:read']],
-    denormalizationContext: ['groups' => ['tarot:write']]
+    normalizationContext: ['groups' => ['read:tarot']],
+    denormalizationContext: ['groups' => ['write:tarot']]
 )]
 class TarotCard
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('tarot:read')]
+    #[Groups(['read:tarot'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['tarot:read', 'tarot:write'])]
+    #[Groups(['read:tarot', 'write:tarot'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['tarot:read', 'tarot:write'])]
+    #[Groups(['read:tarot', 'write:tarot'])]
     private ?string $number = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['tarot:read', 'tarot:write'])]
+    #[Groups(['read:tarot', 'write:tarot'])]
     private ?string $description = null;
 
     #[ApiProperty(types: ['http://localhost:8000/contentUrl'])]
-    #[Groups('tarot:read')]
+    #[Groups(['read:tarot'])]
     public ?string $contentUrl = null;
 
     #[Vich\UploadableField(mapping: "tarot_image", fileNameProperty: "filePath")]
-    #[Groups(['tarot:read', 'tarot:write'])]
+    #[Groups(['read:tarot', 'write:tarot'])]
     public ?File $file = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups('tarot:read')]
+    #[Groups(['read:tarot'])]
     public ?string $filePath = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]

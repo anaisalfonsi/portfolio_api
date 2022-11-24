@@ -23,24 +23,24 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Delete(),
         new Post(),
     ],
-    normalizationContext: ['groups' => ['language:read']],
-    denormalizationContext: ['groups' => ['language:write']]
+    normalizationContext: ['groups' => ['read:language']],
+    denormalizationContext: ['groups' => ['write:language']]
 )]
 class Language
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['language:read'])]
+    #[Groups(['read:language'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['language:read', 'language:write'])]
+    #[Groups(['read:language', 'write:language'])]
     private ?string $language = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'languages')]
     #[ORM\JoinColumn(nullable: true)]
-    #[Groups(['language:read'])]
+    #[Groups(['read:language'])]
     private Collection $users;
 
     public function __construct()
